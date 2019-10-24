@@ -25,6 +25,42 @@ class Client extends Component {
 
   constructor(props: any) {
     super(props);
+    $ws.on('cli', this.onMessage.bind(this));
+  }
+
+  async componentDidMount() {
+    $ws.send({
+      ch: 'render',
+      url: '/user/login',
+      header: {
+        who: 'root',
+      },
+    });
+    await $func.mSleep(300);
+    $ws.send({
+      ch: 'render',
+      url: '/cli/list',
+      header: {
+        who: 'root',
+      },
+    });
+  }
+
+  onMessage(data: any) {
+    switch (data.url) {
+      case '/cli/list':
+        $stores.cli.root.setDocs(data.payload);
+        break;
+      case '/cli/join':
+        $stores.cli.root.joinDoc(data.header.mac, data.payload);
+        break;
+      case '/cli/update':
+        $stores.cli.root.updateDoc(data.header.mac, data.payload);
+        break;
+      case '/cli/close':
+        $stores.cli.root.closeDoc(data.header.mac);
+        break;
+    }
   }
 
   render() {
