@@ -4,9 +4,10 @@ import {NavigationScreenProp} from 'react-navigation';
 import {IAccount, ITask} from '../../../stores';
 import moment from 'moment';
 import {View, StyleSheet, Text, ProgressBarAndroid} from 'react-native';
-import {Card, Button} from 'native-base';
+import {Card, Button, Toast} from 'native-base';
 import DatePicker from 'react-native-datepicker';
 import {OlView, CollapseVItem, DlgConfirm} from '../../../components';
+import {ClientItemLoad} from './client.item.load';
 
 type IProps = {
   data: any;
@@ -23,11 +24,28 @@ class ClientItem extends Component<IProps> {
     super(props);
   }
 
-  async componentDidMount() {}
+  async componentDidMount() {
+    let doc = this.props.data;
+    if (doc.schedule) {
+      this.setState({
+        sTime: doc.schedule.sTime,
+        eTime: doc.schedule.eTime,
+      });
+    }
+  }
 
   async updateSchedule() {
+    if (!this.state.sTime || !this.state.eTime) {
+      Toast.show({
+        text: '请输入压测时间段',
+        buttonText: 'Ok',
+        type: 'danger',
+        position: 'top',
+        duration: 3000,
+      });
+    }
     let doc = this.props.data;
-    await $ax.post('/cliSchedule', {
+    await $ax.post('/cli_schedule', {
       action: 'update',
       mac: doc.index.mac,
       sTime: this.state.sTime,
@@ -40,9 +58,10 @@ class ClientItem extends Component<IProps> {
     return (
       <Card style={{paddingHorizontal: 10, paddingVertical: 7}}>
         {this.renderBasic()}
-        {this.renderStatus()}
         {this.renderAbility()}
         {this.renderSchedule()}
+        {this.renderStatus()}
+        <ClientItemLoad mac={doc.index.mac} />
       </Card>
     );
   }
@@ -227,7 +246,7 @@ class ClientItem extends Component<IProps> {
               paddingHorizontal: 5,
             }}
             disabled={this.state.uploading}
-            onPress={() => {}}>
+            onPress={this.updateSchedule.bind(this)}>
             <Text style={{color: $color.white, fontSize: 20}}>确认</Text>
           </Button>
         </View>

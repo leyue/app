@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 
 let time = {
   formatDuration(cnt: number) {
@@ -16,6 +16,39 @@ let time = {
   formatDurationH(cnt: number) {
     let hours = (cnt / (3600 * 1000)).toFixed(2);
     return `${hours}h`;
+  },
+  getMonthDuration(year: number, month: any) {
+    let st = moment(`${year}`, 'YYYY')
+      .add(month - 1, 'months')
+      .startOf('month')
+      .format('YYYY-MM-DD HH:mm:ss');
+    let et = moment(`${year}`, 'YYYY')
+      .add(month - 1, 'months')
+      .endOf('month')
+      .format('YYYY-MM-DD HH:mm:ss');
+    return {st, et};
+  },
+  getWeekDuration(year: number, week: any) {
+    let st = moment(`${year}`, 'YYYY')
+      .add(week - 1, 'weeks')
+      .startOf('week')
+      .add(1, 'days')
+      .format('YYYY-MM-DD HH:mm:ss');
+    let et = moment(`${year}`, 'YYYY')
+      .add(week - 1, 'weeks')
+      .endOf('week')
+      .add(1, 'days')
+      .format('YYYY-MM-DD HH:mm:ss');
+    return {st, et};
+  },
+  getDayDuration(date: string) {
+    let st = moment(date, 'YYYY-MM-DD')
+      .startOf('day')
+      .format('YYYY-MM-DD HH:mm:ss');
+    let et = moment(date, 'YYYY-MM-DD')
+      .endOf('day')
+      .format('YYYY-MM-DD HH:mm:ss');
+    return {st, et};
   },
 };
 
