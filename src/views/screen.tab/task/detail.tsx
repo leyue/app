@@ -85,7 +85,7 @@ class Detail extends Component<IProps> {
             />
           )}
           <Collapse>
-            <CollapseCItem title={'基本信息'} visable={false}>
+            <CollapseCItem title={'基本信息'} visable={true}>
               <DetailBasic />
             </CollapseCItem>
             <CollapseCItem title={'模块统计'}>
@@ -120,10 +120,10 @@ class Detail extends Component<IProps> {
               subTitle={doc.archive.report.bugs.length > 0 ? null : '暂无数据'}>
               <DetailBug />
             </CollapseCItem>
-            <CollapseCItem title={'线上Case'} visable={false}>
+            <CollapseCItem title={'线上Case'} visable={true}>
               <DetailCases type={'online'} />
             </CollapseCItem>
-            <CollapseCItem title={'线下Case'} visable={true}>
+            <CollapseCItem title={'线下Case'} visable={false}>
               <DetailCases type={'offline'} />
             </CollapseCItem>
           </Collapse>

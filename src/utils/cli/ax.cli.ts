@@ -49,7 +49,7 @@ class AxCli extends Object {
   afterRes() {
     $ax.interceptors.response.use(
       (res: any): any => {
-        console.log(res);
+        // console.log(res);
         return res.data;
       },
       async (err: any) => {

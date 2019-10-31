@@ -39,7 +39,16 @@ let time = {
       .endOf('week')
       .add(1, 'days')
       .format('YYYY-MM-DD HH:mm:ss');
-    return {st, et};
+    let days = [];
+    for (let i = 0; i < 7; i++) {
+      let day = moment(`${year}`, 'YYYY')
+        .add(week - 1, 'weeks')
+        .startOf('week')
+        .add(i + 1, 'days')
+        .format('MM.DD');
+      days.push(day);
+    }
+    return {st, et, days};
   },
   getDayDuration(date: string) {
     let st = moment(date, 'YYYY-MM-DD')

@@ -6,11 +6,7 @@ import {
   computed,
   autorun,
 } from 'mobx';
-import {
-
-  NavigationActions,
-  NavigationScreenProp,
-} from 'react-navigation';
+import {NavigationActions, NavigationScreenProp} from 'react-navigation';
 
 configure({enforceActions: 'always'});
 
@@ -121,8 +117,8 @@ class Root {
     });
     let res: any = await $ax.get(
       `/task?where=${JSON.stringify({
-        // ...this.where,
-        app: 'SWVT20190821091448593a',
+        ...this.where,
+        // app: 'SWVT20190821091448593a',
       })}&sort=${JSON.stringify(this.sort)}&page=${page}&cnt=${cnt}`,
     );
     runInAction(() => {
