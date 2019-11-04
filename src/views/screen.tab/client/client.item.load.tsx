@@ -43,6 +43,7 @@ class ClientItemLoad extends Component<IProps> {
   }
 
   async goBack() {
+    // debugger;
     let {year, month, week} = this.state;
     switch (this.state.type) {
       case 'month':
@@ -98,13 +99,11 @@ class ClientItemLoad extends Component<IProps> {
     let mac = this.props.mac;
     let {year, week} = this.state;
     let {st, et, days} = $time.getWeekDuration(year, week);
-    let where = {
+    let req = `/cli_load?where=${JSON.stringify({
       mac,
       time: {$gte: st, $lte: et},
-    };
-    let req = `/cli_load?where=${JSON.stringify(where)}`;
+    })}`;
     let docs: any[] = await $ax.get(req);
-    let titles: string[] = [];
     let data: number[] = [];
     for (let day of days) {
       let doc = docs.find((value, idx, arr) => {
