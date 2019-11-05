@@ -161,7 +161,7 @@ class ClientItemLoad extends Component<IProps> {
       ],
     };
     return (
-      <View style={{padding: 0}}>
+      <View style={{padding: 0}} >
         <Echarts option={option} height={250} />
         <View
           style={{
